@@ -17,7 +17,6 @@ const register = async (email, password) => {
 };
 
 // login
-
 const login = async (email, password) => {
     const user = await prisma.user.findUnique({ where: { email } });
     if (!user) {

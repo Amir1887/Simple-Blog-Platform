@@ -10,6 +10,7 @@ const getAllPosts = async () => {
                     name: true,
                     email: true,
                     username: true,
+                    id: true,
                 }
             }
         }
@@ -34,14 +35,26 @@ const getPostById = async (id) => {
                     name: true,
                     email: true,
                     username: true,
+                    id: true,
                 }
             }
         }
     });
 };
 
+ // edit single post by id 
+ const editPostById = async (id, data) => {
+    return await prisma.post.update({
+        where: {id},
+        data: {...data}    // Ensure data contains the updated values
+    });
+ }
+
+ // delete single post 
+
 module.exports = {
     getAllPosts,
     createPost,
     getPostById,
+    editPostById
 };

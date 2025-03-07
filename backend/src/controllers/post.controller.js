@@ -2,6 +2,7 @@ const {
   getAllPosts,
   createPost,
   getPostById,
+  editPostById,
 } = require("../services/post.service");
 
 // Get all posts
@@ -40,8 +41,34 @@ const getPostByIdHandler = async (req, res) => {
     }
 };
 
+// edit post by id 
+const editPostHandler = async (req, res) => {
+ 
+    try {
+        const { id } = req.params;
+        const { title, content } = req.body;
+
+        // Fetch the post to check if the current user is the author
+        const post = await getPostById(id);
+        if (!post){
+            return res.status(404).json({message: "post not found"})
+        }
+        // Check if the current user is the author of the post
+        if(req.user.id !== post.authorId){
+            return res.status(403).json({ message: "you are not authorized to edit this post." })
+        }
+
+        // update the post 
+        const editedPost = editPostById(id, { title, content });
+        res.json(editedPost);
+    } catch (error) {
+        res.status(500).json({message: "Failed to edit post", error: error.message})
+    }
+}
+
 module.exports = {
     getAllPostsHandler,
     createPostHandler,
     getPostByIdHandler,
+    editPostHandler
 };

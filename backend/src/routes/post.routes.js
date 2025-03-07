@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { getAllPostsHandler, createPostHandler, getPostByIdHandler } = require("../controllers/post.controller");
+const { getAllPostsHandler, createPostHandler, getPostByIdHandler, editPostHandler } = require("../controllers/post.controller");
+const authenticateJWT = require("../middleware/auth.middleware");
 
 
 // Get all posts
@@ -11,5 +12,8 @@ router.post("/", createPostHandler);
 
 // Get single post
 router.get("/:id", getPostByIdHandler);
+
+// Edit single post 
+router.put("/:id", authenticateJWT,  editPostHandler);
 
 module.exports = router;

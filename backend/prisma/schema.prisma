@@ -15,7 +15,7 @@ datasource db {
 
 model User {
   id        String    @id @default(uuid())
-  name      String
+  name      String?
   email     String    @unique
   password  String // Will store hashed passwords
   username  String? // Optional
