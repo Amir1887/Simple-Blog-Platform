@@ -50,11 +50,17 @@ const getPostById = async (id) => {
     });
  }
 
- // delete single post 
+ // delete single post by id 
+ const deletePostById = async (id) => {
+    return await prisma.post.delete({
+        where: {id}
+    })
+ }
 
 module.exports = {
     getAllPosts,
     createPost,
     getPostById,
-    editPostById
+    editPostById,
+    deletePostById
 };

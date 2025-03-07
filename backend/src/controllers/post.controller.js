@@ -3,6 +3,7 @@ const {
   createPost,
   getPostById,
   editPostById,
+  deletePostById,
 } = require("../services/post.service");
 
 // Get all posts
@@ -59,16 +60,40 @@ const editPostHandler = async (req, res) => {
         }
 
         // update the post 
-        const editedPost = editPostById(id, { title, content });
+        const editedPost = await editPostById(id, { title, content });
         res.json(editedPost);
     } catch (error) {
         res.status(500).json({message: "Failed to edit post", error: error.message})
     }
 }
 
+// delete post by id 
+const deletePostHandler = async (req, res) => {
+    try {
+        // Ensure id is a number
+        const { id } = req.params;
+     
+
+        const post = await getPostById(id);
+        if (!post){
+            return res.status(404).json({message: "post not found"});
+        }
+        // Check if the current user is the author of the post
+        if ( req.user.id !== post.authorId ) {
+            return res.status(403).json({ message: "You are not authorized to delete this post" });
+        }
+        await deletePostById(id);
+        res.status(200).json({ message: "Post deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "failed to delete post", error: error.message});
+    }
+    
+}
+
 module.exports = {
     getAllPostsHandler,
     createPostHandler,
     getPostByIdHandler,
-    editPostHandler
+    editPostHandler,
+    deletePostHandler
 };
