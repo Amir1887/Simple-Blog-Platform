@@ -9,7 +9,7 @@ Requirements:
 - Allow users to view a post's full content.
 - Provide a form to create new blog posts.
 - Use Axios or Fetch API to interact with the backend.
-- Implement a REST API using Node.js and NestJS.
+- Implement a REST API using Node.js and ExpressJS.
 - Each post should have a title, author, content, and creation date.
 - Store posts in a PostgreSQL (or MongoDB) database.
 - Handle validation and errors properly.
